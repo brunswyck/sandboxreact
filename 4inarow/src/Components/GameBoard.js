@@ -3,7 +3,7 @@ import "./GameBoard.css";
 import GameCircle from "./GameCircle";
 import Header from "./Header";
 import Footer from './Footer';
-import { isWinner, isDraw } from "../helper";
+import { isWinner, isDraw, getComputerMove } from "../helper";
 import { GAME_PLAYING, NO_PLAYER, PLAYER1, NO_CIRCLES, GAME_WIN, GAME_DRAW, PLAYER2 } from "../Constants";
 
 
@@ -14,25 +14,15 @@ const GameBoard = () => {
   const [gameState, setGameState] = useState(GAME_PLAYING);
   const [winPlayer, setWinPlayer] = useState(NO_PLAYER)
 
-  useEffect(() => {
-    initGame();
-  }, []) // empty [] = runs only once
-
   const initGame = () => {
     setGameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
     setCurrentPlayer(PLAYER1);
     setGameState(GAME_PLAYING);
   }
 
-  const initBoard = () => {
-    const circles = [];
-
-    for (let index = 0; index < NO_CIRCLES; index++) {
-      circles.push(renderCircle(index)); // push jsx output from renderCircle into array
-    }
-
-    return circles;
-  };
+  useEffect(() => {
+    initGame();
+  }, []) // empty [] = runs only once
 
   const circleClicked = (id) => {
     // check if circle already clicked
@@ -55,8 +45,6 @@ const GameBoard = () => {
     // toggle player with ternary
     // you can update primitives directly
     setCurrentPlayer(currentPlayer === PLAYER1 ? PLAYER2 : PLAYER1);
-    console.log(currentPlayer);
-    console.log(gameboard);
   };
 
   const renderCircle = (id) => {
@@ -66,11 +54,28 @@ const GameBoard = () => {
     );
   };
 
+  const initBoard = () => {
+    const circles = [];
+
+    for (let index = 0; index < NO_CIRCLES; index++) {
+      circles.push(renderCircle(index)); // push jsx output from renderCircle into array
+    }
+
+    return circles;
+  };
+
+  
+
+  const suggestMove = () => {
+    circleClicked(getComputerMove(gameboard));
+  }
+
+
   return (
     <div>
       <Header gameState={gameState} currentPlayer={currentPlayer} winPlayer={winPlayer} />
         <div className="gameboard">{initBoard()}</div>
-      <Footer onClickEvent={initGame} />
+      <Footer onNewGameClick={initGame} onSuggestClick={suggestMove} />
     </div>
   )
 }
