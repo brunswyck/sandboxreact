@@ -1,3 +1,8 @@
+:root {
+  --bg-color: rgb(24, 86, 202);
+  --border-color: rgb(4, 4, 46);
+}
+
 .app-container {
   width: 800px;
   height: 800px;
@@ -64,8 +69,8 @@
   position: absolute;
   margin-left: 5%;
   top: 10%;
-  background-color: rgb(24, 86, 202);
-  border: 8px solid rgb(4, 4, 46);
+  background-color: var(--bg-color);
+  border: 8px solid var(--border-color);
   border-radius: 8%;
   -webkit-box-shadow: 7px 5px 15px 3px rgba(0, 0, 0, 0.9);
   box-shadow: 7px 5px 15px 3px rgba(0, 0, 0, 0.9);
